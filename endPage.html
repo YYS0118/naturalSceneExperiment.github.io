@@ -1,0 +1,67 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  	<script src='https://www.google.com/recaptcha/api.js'></script>
+	  <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+	  <link rel="stylesheet" href="mystyle.css">
+
+	  <script>	
+		function saveComments() {
+			localStorage.setItem('dataComment', document.getElementById("comment_text").value);
+			alert('comment saved');
+		}
+
+		function seeResults() {
+			var dataComment = localStorage.getItem("dataComment"); 
+			var dataLoop = localStorage.getItem("dataLoop"); 
+			var dataExp = localStorage.getItem("dataExp"); 
+			var savedRGB = localStorage.getItem("savedRGB");
+			var dataIshihara = localStorage.getItem('dataIshihara');
+
+
+			alert('Comment is: \n'+ dataComment +'\n There are: '+ dataLoop[dataLoop.length - 1] + 'loops. \n All the results are: \n' + dataExp + '\n Color adjustment task result is: '+ savedRGB + '\n Ishihara task result is: '+ dataIshihara);
+		}
+
+		function show(element) {
+			// hide all elements
+			$('.show').removeClass('show').addClass('hidden');
+			// switch the css display property of the provided element
+			var ele = $(`#${element}`);
+			ele.removeClass('hidden').addClass('show');
+			resetView();
+		}
+
+		function goToEnd() {
+			alert('experiment data has been saved in the same folder');
+			show('page_EXPend');
+		}
+
+   </script>
+	
+</head>
+
+<body style="background-color:rgb(192,192,192)">
+
+	<div class="show">
+		<h1>The end. <br>
+		Thank you for doing this hit!</h1>
+		<br><br>
+		<p class="textBlocks">We would like to know if you had any comments!
+		<br><br></p>
+		<textarea type="text" id="comment_text" rows="4" cols="50" href="javascript:saveComments()"> </textarea>
+		<a class="nextLink" href="javascript:saveComments()"> save comments</a>
+		<a class="nextLink" href="javascript:seeResults()"> SEE RESULTS </a>
+		<a class="nextLink" href="javascript:goToEnd()"> EXIT </a>
+	</div>
+	    
+	<div class="hidden" id="page_EXPend">
+		<h1><strong><br>YOU can press the X and exit now.<br></strong></h1>
+	</div>
+
+</body>
+</html>

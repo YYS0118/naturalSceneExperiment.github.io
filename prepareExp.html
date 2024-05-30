@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Ambient Display Chromaticity Experiment</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+    <link rel="stylesheet" href="mystyle.css">
+
+    <script src="ScreenCalDat20122021-tablet-255levels.js"></script>
+    <script src="kccv.js"></script> <!--need Anya's approve-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <style>
+        #matchSurface { 
+            width: 300px; 
+            height: 300px; 
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #matchDebug { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            color: white;
+        }
+    </style>
+
+
+
+<script>
+    // COLOR ADJUSTMENT TEST
+        var tablet = new Kccv();
+        tablet.cal_init(CalData);
+
+        document.addEventListener('keydown', onKeyDown);
+
+        var step = 1;
+        var aStep = 0;
+        var bStep = 0;
+        var LStep = 60;
+
+        const WP = [125, 0.31382,  0.33100]; //white point D65 CIE 1964 10°
+
+        function showLAB() {
+            var LAB = [LStep * step, aStep * step, bStep * step];
+            var RGB = tablet.kccv(LAB, 'lab', 'ui8rgb', { whitepoint: WP, RGB_Ceil: true });
+            var RGBsum = RGB[0] + RGB[1] + RGB[2];
+            if (RGBsum <1) {
+                document.write("<br>Wrong color! Please refresh the page and do it again.");
+            }
+            var matchSurface = document.getElementById("matchSurface");
+            if (matchSurface) matchSurface.style.backgroundColor = `rgb(${RGB[0]},${RGB[1]},${RGB[2]})`;
+        }
+
+        function onKeyDown(e) {
+            switch (e.keyCode) {
+                case 37: bStep--; break;
+                case 39: bStep++; break;
+                case 38: aStep++; break;
+                case 40: aStep--; break;
+                case 65: LStep--; break;
+                case 67: LStep++; break;
+                case 91: aStep = 0; bStep = 0; LStep = 500; break;
+                default: return;
+            }
+           showLAB();      
+        }
+
+        function GoToIshihara() {   
+          var LAB = [LStep * step, aStep * step, bStep * step];
+          var RGB = tablet.kccv(LAB, 'lab', 'ui8rgb', { whitepoint: WP, RGB_Ceil: true });
+          localStorage.setItem("savedRGB", RGB);
+          alert('Color adjustment task finished, your gray color RGB is: \n'+ RGB);
+          show('page_Ishihara');
+        }    
+
+        function show(element) {
+            // hide all elements
+            $('.show').removeClass('show').addClass('hidden');
+            // switch the css display property of the provided element
+            var ele = $(`#${element}`);
+            ele.removeClass('hidden').addClass('show');
+            resetView()
+        }
+
+    // ISHIARA TEST
+    var myPix = new Array("images/Ishihara_00.jpg","images/Ishihara_01.jpg","images/Ishihara_02.jpg","images/Ishihara_03.jpg");
+    var trails = Math.floor(Math.random() * myPix.length);
+    document.getElementById("myPicture1").src = myPix[trails];
+
+    function saveIshihara() {
+        localStorage.setItem('dataIshihara', document.getElementById("ishihara_text").value);
+        alert('Ishihara task finished, your number is: \n'+ dataIshihara);
+    }
+
+</script>
+</head>
+
+
+
+<body style="background-color:rgb(192,192,192)">
+    <div class="show" id="page_color_adjust" >
+        <h1> <br>COLOR ADJUSTMENT TASK<br><br></h1>
+        <p class="textBlocks"> Press any key to strat the task. <br> In the task, use the direction keys to adjust the color of square until you feel it's <i>neutral gray</i>.</p>
+        <br><br>
+        <div onload="showLAB()">
+            <div id="matchSurface"></div>
+            <div id="matchDebug"></div>
+            <br><br>
+        </div>
+        <br><br>
+        <a class="nextLink" href="javascript:GoToIshihara()"> Continue to next task </a>
+    </div>
+
+
+    <div class="hidden" id="page_Ishihara">
+      <h1> <br>ISHIHARA TASK<br><br></h1>
+      <p class="textBlocks"> Type in the numbers you see.</i>.</p>   
+      <br><br>
+      <img id="myPicture1" src="images/Ishihara_00.jpg"> 
+      <br><br>
+      <textarea type="text" id="ishihara_text" rows="4" cols="5"> </textarea>
+      <br><br>
+      <a class="nextLink" href="javascript:saveIshihara()"> FINISHED</a>  
+      <br><br>
+      <a class="nextLink" href="doExp1.html" > GO TO EXPERIMENT</a>  
+   </div>
+
+</body>
+</html>
