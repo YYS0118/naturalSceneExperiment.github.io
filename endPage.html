@@ -22,24 +22,22 @@
 			var dataExp = localStorage.getItem("dataExp"); 
 			var savedRGB = localStorage.getItem("savedRGB");
 			var dataIshihara = localStorage.getItem('dataIshihara');
-
-			alert('Comment is: \n'+ dataComment +'\n There are: '+ dataLoop[dataLoop.length - 1] + 'loops. \n All the results are: \n' + dataExp + '\n Color adjustment task result is: '+ savedRGB + '\n Ishihara task result is: '+ dataIshihara);
-			fetch("/expResults/temp", {
-				method: "POST",
-				headers: {Accept: "application/json",
-					"Content-Type": "application/json"
-					 },
-				body: JSON.stringify(dataComment)
-			})
-				.then(response => response.text())
-				.then(result => {
-					console.log(result);
-				})
-				.catch(err => {
-					console.error(err.message);
-				});
+			$.ajax({
+			      type: "POST",
+			      contentType: "application/json; charset=utf-8",
+			      url: "https://yys0118.github.io/naturalSceneExperiment.github.io/" + getName() + "/",
+			      data: { 
+				      'dataComment': dataComment, 
+				      'dataLoop': dataLoop, 
+				      'dataExp': dataExp,
+				      'savedRGB': savedRGB,
+				      'dataIshihara': dataIshihara
+			      },
+			      success: function (result) {
+			           console.log("Sent data");
+			      }
+			 });			
 		}
-
 
 		function show(element) {
 			// hide all elements
@@ -55,8 +53,11 @@
 			show('page_EXPend');
 		}
 
-		  
-
+		  function getName() {
+			splits = window.location.href.split('/')
+			name = splits[splits.length - 2]
+			return name
+		}
    </script>
 	
 </head>
