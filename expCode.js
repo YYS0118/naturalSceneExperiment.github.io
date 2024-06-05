@@ -28,15 +28,3 @@ const events = {
   });
 });
 showOrder();
-
-// SELECT IMAGES RANDOMLY
-//window.onload = choosePic;
-//var myPix = new Array("images/img1.png","images/img2.png","images/img3.png","images/img4.png","images/img5.png","images/img6.png");
-//var trailList =  [[5,4,3],[2,1,0],[0,2,4],[1,3,5]]; //[0,1,2,3,4,5]
-//var loopL = 0;
-// function choosePic() {
- //    trails = trailList[loopL];
-//     document.getElementById("myPicture1").src = myPix[trails[0]];
-//     document.getElementById("myPicture2").src = myPix[trails[1]];
-//     document.getElementById("myPicture3").src = myPix[trails[2]];
-//   }
