@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+<link rel="stylesheet" href="mystyle.css">
+
+<style type="text/css">
+    #copyright {
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+    }
+</style>
+
+</head>
+
+<body style="background-color:rgb(192,192,192)">
+
+    <h1>Thank you for your participation. </h1>
+    <br>
+    <h2>Research Information:</h2>
+    <br>
+    <p class="textBlocks">
+        This experiment is part of research conducted at the Hong Kong Polytechnic University (HK POLYU). The study is led by Dr. Cehao Yu. 
+        <br>
+        If you have any comments, please let us know here:
+        <br>
+    </p>
+
+    <form id="javascript_form">
+        <input type="text" name="subject" class="textBlocks" rows="1" cols="100" placeholder="Your email-address (optional)" />
+        <br>
+        <textarea name="text" placeholder="Comment here" class="textBlocks" rows="10" cols="100" ></textarea>
+        <br>
+        <p class="textBlocks">If you agree to send your data, please click the 'Agree' button.</p>
+        <br>
+        <input  class="nextLink" type="submit" id="js_send" value="Agree" />
+    </form>
+
+    <script>
+        var form_id_js = "javascript_form";
+        var data_js = {"access_token": "vajt30xxl77zl8f8jg4oe2h3"}; // google receiver e-mail adress
+
+        
+
+        function show(element) {
+            $('.show').removeClass('show').addClass('hidden');
+            var ele = $(`#${element}`);
+            ele.removeClass('hidden').addClass('show');
+            resetView();
+        }
+
+        
+
+        function js_onSuccess() {
+            window.location = window.location.pathname + "?message=Email+Successfully+Sent%21&isError=0";
+            alert('Now you can exit the experiment.');
+        }
+
+        function js_onError(error) {
+            window.location = window.location.pathname + "?message=Email+could+not+be+sent.&isError=1";
+        }
+
+        var sendButton = document.getElementById("js_send");
+
+        function js_send() {
+            sendButton.value='Sending…';
+            sendButton.disabled=true;
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+            if (request.readyState == 4 && request.status == 200) {
+                js_onSuccess();
+            } 
+            else
+                if(request.readyState == 4) {
+                    js_onError(request.response);
+            }
+        };
+
+        var subject = document.querySelector("#" + form_id_js + " [name='subject']").value;
+        var message = document.querySelector("#" + form_id_js + " [name='text']").value;
+
+        // color adjustment task
+        var savedRGB = localStorage.getItem("savedRGB");
+        // ishihara task
+        var orderIshihara = localStorage.getItem("orderIshihara");
+        var ishiResult = localStorage.getItem("ishiResult");
+        //questionnaire task
+        var queResult = localStorage.getItem("queResult");
+        // main experiment task
+        var sliceNum = localStorage.getItem("sliceNum");
+        var trailList = localStorage.getItem("trailList");
+        var dataImage = localStorage.getItem("dataImage");
+        var dataChosen = localStorage.getItem("dataChosen");
+
+
+        data_js['subject'] =  'Results from '+ subject;
+        data_js['text'] = 'EXPERIMENT 2 PAIRING RESULTS'+ 
+        '\nComment is: \n' + message + '\nAdjusted color is:\n' + savedRGB + 
+        '\nIshihara images order is:\n' + orderIshihara + '\nIshihara results are:\n' + ishiResult + 
+        '\nQuestionaire results are:\n' +   queResult + '\nblock of all list is:\n' +   sliceNum + 
+         '\ntrailList are:\n' + trailList + '\nAfter pairing images are:\n' + dataChosen;
+ 
+
+
+        var params = toParams(data_js);
+        request.open("POST", "https://postmail.invotes.com/send", true);
+        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        request.send(params);
+
+        return false;
+        }
+
+        sendButton.onclick = js_send;
+
+        function toParams(data_js) {
+            var form_data = [];
+            for ( var key in data_js ) {
+                form_data.push(encodeURIComponent(key) + "=" + encodeURIComponent(data_js[key]));
+            }
+            return form_data.join("&");
+        }
+
+        var js_form = document.getElementById(form_id_js);
+        
+        js_form.addEventListener("submit", function (e) {
+            e.preventDefault();
+        }); 
+    </script>
+
+    <p class="textBlocks"> If you have questions later, you may contact <i>cehao.yu@polyu.edu.hk</i><br></p>	
+    <p id="copyright">Powered by <a href="https://postmail.invotes.com" target="_blank">PostMail</a></p>
+
+</body>
+
+</html>

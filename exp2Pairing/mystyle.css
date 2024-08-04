@@ -1,0 +1,63 @@
+
+
+.image.dragover{
+  background-color: yellow;
+}
+
+.hidden {
+  display: none
+}
+
+.show {
+	display: inline
+}
+
+h1 {
+	font-family: 'Crimson Text', serif;
+	line-height: 1.5;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	margin-left: 50px;
+	font-size: 24pt;
+}
+
+h2 {
+	font-family: 'Crimson Text', serif;
+	line-height: 1.5;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	margin-left: 50px;
+	font-size: 20pt;
+}
+
+.nextLink {
+	background: rgb(222,222,222);
+	margin-left: 50px;
+	border: 1px outset black;
+	padding: 7px;
+	color: black;
+	font-family: 'Montserrat';
+	font-size: 18pt;
+}
+
+.nextLinkEnd{
+	background: rgb(222,222,222);
+	margin-left: 400px;
+	border: 1px outset black;
+	padding: 7px;
+	color: black;
+	font-family: 'Montserrat';
+	font-size: 18pt;
+}
+
+.textBlocks {
+	font-family: 'Crimson Text', serif;
+	line-height: 1.5;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-right: 20px;
+	margin-left: 50px;
+	font-size: 15pt;
+}
+
+
