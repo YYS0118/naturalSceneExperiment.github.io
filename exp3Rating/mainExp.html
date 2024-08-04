@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+  <link rel="stylesheet" href="mystyle.css">
+
+<!--for slider-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.net/foundation/5.5.3/css/foundation.min.css">
+  <script src="https://cdn.staticfile.net/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.net/foundation/5.5.3/js/foundation.min.js"></script>
+  <script src="https://cdn.staticfile.net/foundation/5.5.3/js/vendor/modernizr.js"></script>
+
+  <style type="text/css">
+    img {
+        width: 50%;
+        height: 50%;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-right: 20px;
+        margin-left: 50px;
+        }
+  </style>
+
+  <script>
+    var myPix0 = new Array("images/L01.jpeg","images/L02.jpg","images/L03.jpg","images/L04.jpeg","images/L05.jpg","images/L06.jpg","images/L07.jpg","images/L08.jpg","images/L09.jpg","images/L10.jpg","images/L11.jpg","images/L12.jpg","images/NL01.jpg","images/NL02.jpg","images/NL03.jpg","images/NL04.jpg","images/NL05.jpg","images/NL06.jpg","images/NL07.jpg","images/NL08.jpeg","images/NL09.jpeg","images/NL10.jpg","images/NL11.jpeg","images/NL12.jpeg","images/NL13.jpeg","images/NL14.jpeg","images/NL15.jpg","images/NL16.jpeg","images/NL17.jpeg","images/NL18.jpeg","images/NL19.jpg","images/NL20.jpg","images/NL21.jpg","images/NL22.jpg","images/NL23.jpg","images/NL24.jpg","images/NL25.jpg","images/NL26.jpg","images/NL27.jpg","images/NL28.jpg","images/NL29.jpg","images/NL30.jpg","images/NL31.jpg","images/NL32.jpg","images/NL33.jpg","images/NL34.jpg","images/NL35.jpg","images/NL36.jpg","images/NL37.jpg","images/NL38.jpg","images/NL39.jpg","images/NL40.jpg","images/NL41.jpg","images/NL42.jpg","images/NL43.jpg","images/NL44.jpg");
+
+    let myPix = myPix0
+      .map(value => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)
+
+    var trailList =  [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56];
+    var maxL = 55;
+    var loopL = 0;
+    
+    window.onload = initialPic;
+    function initialPic() {
+      document.getElementById("myPic").src = myPix[0];
+      localStorage.setItem('imgList', myPix);
+    }
+
+    var dataLoop = [];
+    var dataSlider = [];
+
+    function show(element) {
+      $('.show').removeClass('show').addClass('hidden');
+      var ele = $(`#${element}`);
+      ele.removeClass('hidden').addClass('show');
+      resetView()
+    }
+
+    function GoToPrevious() {
+      dataLoop[loopL] = loopL;
+      dataSlider[loopL] = document.getElementById("mySlider").value;
+
+      loopL = loopL - 1;
+      if (loopL < trailList.length) { 
+        document.getElementById("myPic").src = myPix[loopL];       
+      }
+      else { 
+        show('button_end');
+      }
+    }
+
+    function GoToNext() {
+      dataLoop[loopL] = loopL;
+      dataSlider[loopL] = document.getElementById("mySlider").value;
+
+      loopL = loopL + 1;
+      if (loopL < trailList.length) { 
+        document.getElementById("myPic").src = myPix[loopL];       
+      }
+      else { 
+        show('button_end');
+      }
+    }
+
+    function GoToEnd() {
+      localStorage.setItem('dataLoop', dataLoop);
+      localStorage.setItem('dataSlider', dataSlider);
+      window.location = 'endPage.html';
+    }
+  </script>
+
+</head>
+
+<body style="background-color:rgb(192,192,192)">  
+
+    <h1>Part 3: Painting Rating Task</h1>
+    <br>
+    <p class="textBlocks">
+      For each trial, carefully observe the painting, and drag the slider to give your rating.
+    </p>
+
+    <div class="item" data-index="1"><img id="myPic" alt="some image" src="images/L01.jpeg"></div> 
+
+    <p class="textBlocks">
+      Score:<br>
+      1 (Left) = [XX] <br>
+      ..... <br>
+      7 (Right) = [XX] <br>
+    </p>
+
+    <p class="textBlocks">Your rating score is:</p>
+    <input type="number" id="mySlider" style="width: 60px; margin-left: 60px;" value="1">
+    <div class="range-slider" data-slider data-options="display_selector: #mySlider; start: 1; end: 7; step: 1;"  style="width: 400px; margin-left: 60px;">
+      <span class="range-slider-handle"  style="margin-left: 60px;"></span>
+      <span class="range-slider-active-segment"  style="margin-left: 60px;"></span>
+    </div>
+
+    <div class="show">
+      <a class="nextLink" href="javascript:GoToPrevious()" style="position: fixed;left: 20px"><<< Previous trail </a>
+      <a class="nextLink" href="javascript:GoToNext()" style="position: fixed;right: 20px">Next trail >>></a>
+    </div>
+
+    <div class="hidden" id="button_end">
+      <a class="nextLinkEnd"  href="javascript:GoToEnd()"> Finish experiment </a>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+        $(document).foundation();
+        })
+    </script>
+
+</body>
+
+</html>

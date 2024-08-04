@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+  <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+  <link rel="stylesheet" href="mystyle.css">
+	<script>
+      function show(element) {
+      	// hide all elements
+      	$('.show').removeClass('show').addClass('hidden');
+      // switch the css display property of the provided element
+      var ele = $(`#${element}`);
+      ele.removeClass('hidden').addClass('show');
+      resetView()
+      }
+
+      function GoToInstruction1() {
+        show('page_instruction1');
+      }
+
+      function GoToInstruction2() {   
+      	show('page_instruction2');
+      }			
+  </script>
+</head>
+
+<body style="background-color:rgb(192,192,192)">	
+
+<div class="show" id="page_welcome">
+  <h1> Welcome to Our Study on Image Rating </h1>
+  <br>
+  <h2> Overview: </h2>
+  <br>
+  <p class="textBlocks"> 
+      Welcome to our study on image rating, which focuses on understanding [XXX]. 
+      <br>
+      This research aims to explore how different visual elements influence aesthetic preferences. 
+      <br>
+      Your participation will help contribute to the body of knowledge in visual perception and preferences.    
+      <br><br>
+      Please click "Next" to read the consent form.
+  </p>     
+  <br><br>
+
+  <a class="nextLink" href="javascript:GoToInstruction1()"> Next </a>
+  <br>
+</div>
+
+<div class="hidden" id="page_instruction1">
+  <h1> Consent form </h1>
+  <br>
+  <p class="textBlocks"><i>Please read the consent form carefully and ensure you understand the information provided.</i></p>
+  <br>
+  <h2>Procedure: </h2>
+  <br>
+  <p class="textBlocks">
+      Please sit comfortably and ensure you are in a distraction-free environment.
+      <br>
+      In this study, you will be asked to do the following tasks:
+      <br>
+      <strong>1.  Gray Color Adjustment Task</strong> 
+      <br>
+      You will adjust a square patch until its color appears neutral gray.
+      <br>
+      <strong>2.  Ishihara Plate Test</strong>
+      <br>
+      You will identify the numbers you see in several circles of colorful dots.
+      <br>
+      <strong>3.  Painting Preference Task</strong>
+      <br>
+      This task comprise [XX] trials. 
+      <br>
+      In each trail, you will be shown one painting, and you will rate its quality(???????)from 1 to 7(???????).
+      <br>
+      The higher the score, the better the [XXXX] of image.
+      <br>
+      The total time required to complete the study should be approximately <strong>[XX] minutes</strong>. 
+      <br><br>
+      Participation in this study is entirely voluntary, and you have the right to withdraw at any time without providing an explanation.
+      <br> 
+      Your participation and data will be kept anonymous, a number will be used for identification purposes instead of your name.
+      <br> 
+      Data will be accessible only to those working on the project.
+      <br><br>
+      Please only click "Next" if you give your consent to participate in this study. 
+      <br>
+      By giving your consent, you acknowledge that you have read and understood the information provided and agree to participate voluntarily.
+      <br><br>
+  </p>
+  
+  <a class="nextLink" href="beforeTask.html" > Next </a>
+</div>
+
+</body>
+
+</html>
