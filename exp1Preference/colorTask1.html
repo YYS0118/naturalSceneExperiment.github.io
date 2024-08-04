@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Ambient Display Chromaticity Experiment</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+    <link rel="stylesheet" href="mystyle.css">
+<!--sRGB to LAB-->
+    <script src="ScreenCalDat20122021-tablet-255levels.js"></script>
+    <script src="kccv.js"></script> 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
+    <style>
+        #matchSurface { 
+            width: 300px; 
+            height: 300px; 
+            margin-left: 50px;
+            margin-right: auto;
+            border-style: solid;
+        }
+
+        #matchDebug { 
+            position: absolute; 
+            margin-top: 0; 
+            margin-left: 50px;
+            color: white;
+        }
+        
+        img {
+          width: 200px;
+          height: 200px;
+          margin-left: 50px;
+        }
+    </style>
+
+
+
+<script>
+    // COLOR ADJUSTMENT TEST
+        var tablet = new Kccv();
+        tablet.cal_init(CalData);
+
+        document.addEventListener('keydown', onKeyDown);
+
+        var step = 1;
+        var aStep = 0;
+        var bStep = 0;
+        var LStep = 50;
+
+        const WP = [125,0.3127,0.3290]; //white point sRGB
+
+        function showLAB() {
+            var LAB = [LStep * step, aStep * step, bStep * step];
+            var RGB = tablet.kccv(LAB, 'lab', 'ui8rgb', { whitepoint: WP, RGB_Ceil: true });
+            var RGBsum = RGB[0] + RGB[1] + RGB[2];
+            if (RGBsum <1) 
+                {document.write("ERROR: Please refresh the page and do it again.");}
+            var matchSurface = document.getElementById("matchSurface");
+            if (matchSurface) matchSurface.style.backgroundColor = `rgb(${RGB[0]},${RGB[1]},${RGB[2]})`;
+        }
+
+        function onKeyDown(e) {
+            switch (e.keyCode) {
+                case 37: bStep--; break;
+                case 39: bStep++; break;
+                case 38: aStep++; break;
+                case 40: aStep--; break;
+                case 65: LStep--; break;
+                case 67: LStep++; break;
+                case 91: aStep = 0; bStep = 0; LStep = 500; break;
+                default: return;
+            }
+           showLAB();      
+        }  
+
+        function show(element) {
+            // hide all elements
+            $('.show').removeClass('show').addClass('hidden');
+            // switch the css display property of the provided element
+            var ele = $(`#${element}`);
+            ele.removeClass('hidden').addClass('show');
+            resetView()
+        }
+
+
+</script>
+</head>
+
+
+
+<body style="background-color:black">
+    <div class="show" id="page_color_adjust" style="background-color: black">
+        <h1 style="color: white"> Part 1: Gray Color Adjustment Task <br></h1>
+        <p class="textBlocks" style="color: white"> In this task, you will see a square patch on the screen, and your task is to adjust its color until it appears <strong>neutral gray </strong>to you. </p>
+        
+        <div onload="showLAB()">
+        <div id="matchSurface"></div>
+        <div id="matchDebug"></div>
+        <br>
+        </div>
+
+        <h2 style="color: white">Instructions:</h2>
+        <p class="textBlocks" style="color: white">
+            1.  Sit comfortably and ensure you are in a distraction-free environment.<br>
+            2.  Press any key to start.<br>
+            3.  Use the direction keys (left, right, up, and down) to adjust the color of the square.<br>
+            4.  Continue adjusting until you feel the square is neutral gray.<br>
+            5.  Click the ‘The square is neutral gray now.’ button.<br></p>
+
+        <br><br>
+        <a class="nextLink" href="colorTask2.html">The square is neutral gray now. </a>
+    </div>
+
+</body>
+</html>
